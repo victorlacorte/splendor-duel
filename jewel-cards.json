@@ -1,0 +1,19 @@
+{
+  "ability_ids": [
+    "take_turn",
+    "take_privilege",
+    "take_opp_token",
+    "take_board_token",
+    "copy_color"
+  ],
+  "id": "1",
+  "prestige": 0,
+  "ability_id": "take_token",
+  "cost": {
+    "white": 3,
+    "red": 4
+  },
+  "bonus": {
+    "green": 1
+  }
+}
