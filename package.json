@@ -2,8 +2,9 @@
   "name": "splendor-duel",
   "type": "module",
   "scripts": {
-    "test": "node --test ./src/**/*.test.mjs"
-
+    "test": "node --test ./src/**/*.test.mjs",
+    "format": "prettier . --write",
+    "check": "prettier . --check"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +14,8 @@
     "express-handlebars": "^7.1.2",
     "handlebars": "^4.7.8",
     "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
   }
 }

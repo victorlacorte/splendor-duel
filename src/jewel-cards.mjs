@@ -17,25 +17,26 @@ const colorSchema = z.object({
   pearl: z.number(),
 });
 
-const jewelCardSchema = z.object({
+export const jewelCardSchema = z.object({
+  id: z.number(),
   tier: z.number().refine(
-    (data) => data > 0 && data < 4,
+    (data) => data >= 1 && data <= 3,
     (data) => ({
       message: `Only tiers 1, 2, and 3 are valid; got ${data}`,
     }),
   ),
   cost: colorSchema.partial(),
-  prestige: z.optional(z.number()),
-  ability: z.optional(z.array(abilitySchema)),
+  prestigePoints: z.optional(z.number()),
+  crownPoints: z.optional(z.number()),
   jewelBonus: z
     .optional(colorSchema.merge(z.object({ any: z.number() })).partial())
     .refine(
       (data) => (data ? Object.keys(data).length == 1 : true),
       (data) => ({
-        message: `Cards can have a single bonus; got ${data}`,
+        message: `Cards can only have a single bonus; got ${data}`,
       }),
     ),
-  crownBonus: z.optional(z.number()),
+  ability: z.optional(z.array(abilitySchema)),
 });
 
 export const jewelCardsSchema = z.array(jewelCardSchema);
@@ -48,7 +49,7 @@ export const jewelCards = [
   {
     tier: 1,
     cost: { white: 1, blue: 1, red: 1, black: 1 },
-    prestige: 0,
+    prestigePoints: 0,
     jewelBonus: { green: 1 },
   },
   {
@@ -76,31 +77,31 @@ export const jewelCards = [
   {
     tier: 1,
     cost: { white: 3, black: 2 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { green: 1 },
   },
   {
     tier: 1,
     cost: { white: 2, blue: 3 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { red: 1 },
   },
   {
     tier: 1,
     cost: { blue: 2, green: 3 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { black: 1 },
   },
   {
     tier: 1,
     cost: { red: 2, black: 3 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { blue: 1 },
   },
   {
     tier: 1,
     cost: { green: 2, red: 3 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { white: 1 },
   },
 
@@ -173,52 +174,52 @@ export const jewelCards = [
     tier: 1,
     cost: { red: 3 },
     jewelBonus: { green: 1 },
-    crownBonus: 1,
+    crownPoints: 1,
   },
   {
     tier: 1,
     cost: { black: 3 },
     jewelBonus: { red: 1 },
-    crownBonus: 1,
+    crownPoints: 1,
   },
   {
     tier: 1,
     cost: { white: 3 },
     jewelBonus: { black: 1 },
-    crownBonus: 1,
+    crownPoints: 1,
   },
   {
     tier: 1,
     cost: { green: 3 },
     jewelBonus: { blue: 1 },
-    crownBonus: 1,
+    crownPoints: 1,
   },
   {
     tier: 1,
     cost: { blue: 3 },
     jewelBonus: { white: 1 },
-    crownBonus: 1,
+    crownPoints: 1,
   },
 
   // colorless
   {
     tier: 1,
     cost: { blue: 2, red: 2, black: 1, pearl: 1 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { any: 1 },
     ability: ["copy_color"],
   },
   {
     tier: 1,
     cost: { white: 2, green: 2, black: 1, pearl: 1 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { any: 1 },
     ability: ["copy_color"],
   },
   {
     tier: 1,
     cost: { black: 4, pearl: 1 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { any: 1 },
     ability: ["copy_color"],
   },
@@ -231,7 +232,7 @@ export const jewelCards = [
   {
     tier: 1,
     cost: { red: 4, pearl: 1 },
-    prestige: 3,
+    prestigePoints: 3,
   },
 
   // tier 2
@@ -239,36 +240,36 @@ export const jewelCards = [
   {
     tier: 2,
     cost: { white: 2, blue: 2, black: 2, pearl: 1 },
-    prestige: 2,
-    crownBonus: 1,
+    prestigePoints: 2,
+    crownPoints: 1,
     jewelBonus: { green: 1 },
   },
   {
     tier: 2,
     cost: { white: 2, blue: 2, green: 2, pearl: 1 },
-    prestige: 2,
-    crownBonus: 1,
+    prestigePoints: 2,
+    crownPoints: 1,
     jewelBonus: { red: 1 },
   },
   {
     tier: 2,
     cost: { blue: 2, green: 2, red: 2, pearl: 1 },
-    prestige: 2,
-    crownBonus: 1,
+    prestigePoints: 2,
+    crownPoints: 1,
     jewelBonus: { black: 1 },
   },
   {
     tier: 2,
     cost: { white: 2, red: 2, black: 2, pearl: 1 },
-    prestige: 2,
-    crownBonus: 1,
+    prestigePoints: 2,
+    crownPoints: 1,
     jewelBonus: { blue: 1 },
   },
   {
     tier: 2,
     cost: { green: 2, red: 2, black: 2, pearl: 1 },
-    prestige: 2,
-    crownBonus: 1,
+    prestigePoints: 2,
+    crownPoints: 1,
     jewelBonus: { white: 1 },
   },
 
@@ -276,35 +277,35 @@ export const jewelCards = [
   {
     tier: 2,
     cost: { blue: 2, green: 4, pearl: 1 },
-    prestige: 2,
+    prestigePoints: 2,
     jewelBonus: { green: 1 },
     ability: ["take_privilege_scroll"],
   },
   {
     tier: 2,
     cost: { green: 2, red: 4, pearl: 1 },
-    prestige: 2,
+    prestigePoints: 2,
     jewelBonus: { red: 1 },
     ability: ["take_privilege_scroll"],
   },
   {
     tier: 2,
     cost: { red: 2, black: 4, pearl: 1 },
-    prestige: 2,
+    prestigePoints: 2,
     jewelBonus: { black: 1 },
     ability: ["take_privilege_scroll"],
   },
   {
     tier: 2,
     cost: { white: 2, blue: 4, pearl: 1 },
-    prestige: 2,
+    prestigePoints: 2,
     jewelBonus: { blue: 1 },
     ability: ["take_privilege_scroll"],
   },
   {
     tier: 2,
     cost: { white: 4, black: 2, pearl: 1 },
-    prestige: 2,
+    prestigePoints: 2,
     jewelBonus: { white: 1 },
     ability: ["take_privilege_scroll"],
   },
@@ -313,35 +314,35 @@ export const jewelCards = [
   {
     tier: 2,
     cost: { white: 3, red: 4 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { green: 1 },
     ability: ["take_opp_token"],
   },
   {
     tier: 2,
     cost: { green: 4, black: 3 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { blue: 1 },
     ability: ["take_opp_token"],
   },
   {
     tier: 2,
     cost: { blue: 3, black: 4 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { red: 1 },
     ability: ["take_opp_token"],
   },
   {
     tier: 2,
     cost: { blue: 3, red: 4 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { white: 1 },
     ability: ["take_opp_token"],
   },
   {
     tier: 2,
     cost: { white: 4, green: 3 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { black: 1 },
     ability: ["take_opp_token"],
   },
@@ -350,31 +351,31 @@ export const jewelCards = [
   {
     tier: 2,
     cost: { green: 5, red: 2 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { blue: 2 },
   },
   {
     tier: 2,
     cost: { red: 5, black: 2 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { green: 2 },
   },
   {
     tier: 2,
     cost: { white: 5, blue: 2 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { black: 2 },
   },
   {
     tier: 2,
     cost: { white: 2, black: 5 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { red: 2 },
   },
   {
     tier: 2,
     cost: { blue: 5, green: 2 },
-    prestige: 1,
+    prestigePoints: 1,
     jewelBonus: { white: 2 },
   },
 
@@ -382,7 +383,7 @@ export const jewelCards = [
   {
     tier: 2,
     cost: { green: 6, pearl: 1 },
-    prestige: 2,
+    prestigePoints: 2,
     jewelBonus: { any: 1 },
     ability: ["copy_color"],
   },
@@ -390,20 +391,20 @@ export const jewelCards = [
     tier: 2,
     cost: { green: 6, pearl: 1 },
     jewelBonus: { any: 1 },
-    crownBonus: 2,
+    crownPoints: 2,
     ability: ["copy_color"],
   },
   {
     tier: 2,
     cost: { blue: 6, pearl: 1 },
     jewelBonus: { any: 1 },
-    crownBonus: 2,
+    crownPoints: 2,
     ability: ["copy_color"],
   },
   {
     tier: 2,
     cost: { blue: 6, pearl: 1 },
-    prestige: 5,
+    prestigePoints: 5,
   },
 
   // tier 3
@@ -411,31 +412,31 @@ export const jewelCards = [
   {
     tier: 3,
     cost: { white: 6, blue: 2, black: 2 },
-    prestige: 4,
+    prestigePoints: 4,
     jewelBonus: { white: 1 },
   },
   {
     tier: 3,
     cost: { green: 2, red: 6, black: 2 },
-    prestige: 4,
+    prestigePoints: 4,
     jewelBonus: { red: 1 },
   },
   {
     tier: 3,
     cost: { white: 2, red: 2, black: 6 },
-    prestige: 4,
+    prestigePoints: 4,
     jewelBonus: { black: 1 },
   },
   {
     tier: 3,
     cost: { white: 2, blue: 6, green: 2 },
-    prestige: 4,
+    prestigePoints: 4,
     jewelBonus: { blue: 1 },
   },
   {
     tier: 3,
     cost: { blue: 2, green: 6, red: 2 },
-    prestige: 4,
+    prestigePoints: 4,
     jewelBonus: { green: 1 },
   },
 
@@ -443,36 +444,36 @@ export const jewelCards = [
   {
     tier: 3,
     cost: { blue: 3, red: 5, black: 3, pearl: 1 },
-    prestige: 3,
-    crownBonus: 2,
+    prestigePoints: 3,
+    crownPoints: 2,
     jewelBonus: { white: 1 },
   },
   {
     tier: 3,
     cost: { blue: 5, green: 3, black: 3, pearl: 1 },
-    prestige: 3,
-    crownBonus: 2,
+    prestigePoints: 3,
+    crownPoints: 2,
     jewelBonus: { red: 1 },
   },
   {
     tier: 3,
     cost: { white: 3, green: 3, black: 5, pearl: 1 },
-    prestige: 3,
-    crownBonus: 2,
+    prestigePoints: 3,
+    crownPoints: 2,
     jewelBonus: { blue: 1 },
   },
   {
     tier: 3,
     cost: { white: 5, blue: 3, red: 3, pearl: 1 },
-    prestige: 3,
-    crownBonus: 2,
+    prestigePoints: 3,
+    crownPoints: 2,
     jewelBonus: { green: 1 },
   },
   {
     tier: 3,
     cost: { white: 3, green: 5, red: 3, pearl: 1 },
-    prestige: 3,
-    crownBonus: 2,
+    prestigePoints: 3,
+    crownPoints: 2,
     jewelBonus: { black: 1 },
   },
 
@@ -480,20 +481,32 @@ export const jewelCards = [
   {
     tier: 3,
     cost: { white: 8 },
-    prestige: 6,
+    prestigePoints: 6,
   },
   {
     tier: 3,
     cost: { black: 8 },
-    crownBonus: 3,
+    crownPoints: 3,
     jewelBonus: { any: 1 },
     ability: ["copy_color"],
   },
   {
     tier: 3,
     cost: { red: 8 },
-    prestige: 3,
+    prestigePoints: 3,
     jewelBonus: { any: 1 },
     ability: ["copy_color", "take_another_turn"],
   },
-];
+].map((card, index) => {
+  card["id"] = index;
+
+  return card;
+});
+
+function getFromTier(tier) {
+  return jewelCards.filter((card) => card.tier == tier);
+}
+
+export const tier1Cards = getFromTier(1);
+export const tier2Cards = getFromTier(2);
+export const tier3Cards = getFromTier(3);
