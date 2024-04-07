@@ -1,4 +1,4 @@
-import { benchmark, createSummary } from "./queries.mjs";
+import { benchmark, createSummary } from "./query-utils.mjs";
 
 import { tier2Cards } from "../jewel-cards.mjs";
 import {

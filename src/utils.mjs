@@ -1,5 +1,3 @@
-import { z } from "zod";
-
 /**
  * Return a random number between [0, end[
  *
@@ -35,12 +33,6 @@ export function take(arr, amount) {
 }
 
 /**
- * @param {Object} config
- * @param {z.infer<typeof import('./jewel-cards.mjs').jewelCardSchema>['tier']} config.tier
- */
-export function filterJewelCards(config) {}
-
-/**
  * Return a function that rounds a number to `decimalPlaces`.
  */
 export function toPrecision(decimalPlaces) {
@@ -55,21 +47,19 @@ export function toPrecision(decimalPlaces) {
 }
 
 /**
- * @typedef Card
- * @prop {number} id
+ * @template {{id: number}} T
  *
- * @param {Array<Card>} cards
+ * @param {Array<T>} cards
  */
 export function createIdSetFrom(cards) {
   return new Set(cards.map((card) => card.id));
 }
 
 /**
- * @typedef Card
- * @prop {number} id
+ * @template {{id: number}} T
  *
  * @param {Set<number>} idSet
- * @param {Array<Card>} totalCards
+ * @param {Array<T>} totalCards
  */
 export function* getCardsFromIdSet(idSet, totalCards) {
   for (const id of idSet) {

@@ -1,6 +1,12 @@
 import assert from "node:assert/strict";
+import { describe, it } from "node:test";
 
-import { jewelCardsSchema, jewelCards } from "./jewel-cards.mjs";
+import { tier1Cards, tier2Cards, tier3Cards } from "./jewel-cards.mjs";
 
-jewelCardsSchema.parse(jewelCards);
-assert.equal(jewelCards.length, 67);
+describe("jewel-cards", () => {
+  it("cards were correctly inputted", () => {
+    assert.equal(tier1Cards.length, 31);
+    assert.equal(tier2Cards.length, 24);
+    assert.equal(tier3Cards.length, 12);
+  });
+});
